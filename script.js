@@ -1,4 +1,3 @@
-// WHEN I answer a question incorrectly THEN time is subtracted from the clock
 // WHEN all questions are answered or the timer reaches 0 THEN the game is over
 // WHEN the game is over THEN I can save my initials and score
 
@@ -82,7 +81,6 @@ function selectNextQ() {
 }
 
 function chooseAnswer(value) {
-    // WHEN I answer a question incorrectly THEN time is subtracted from the clock
     // TODO: keep track of score
     if (value.dataset.value === value.dataset.answer) {
         correctEl.setAttribute("style", "display: block");
@@ -90,6 +88,7 @@ function chooseAnswer(value) {
         setTimeout(function() {
             correctEl.style.display = "none";
         }, 1000);
+        score += 10;
         
     } else {
         // alert the user that they are wrong
@@ -98,6 +97,8 @@ function chooseAnswer(value) {
         setTimeout(function() {
             wrongEl.style.display = "none";
         }, 1000);
+
+        // when the user answers a question incorrectly, then time is subtracted from the clock
         timeLeft -= 10;
     }
 
@@ -110,7 +111,7 @@ function chooseAnswer(value) {
 }
 
 function gameOver() {
-    //alertsEl.innerHTML = '';
+    quiz.style.display = 'none';
     doneEl.style.display = 'block';
     // TODO: timer should pause when game over
     yourScore.textContent = 'Your final score is ' + score + '.';
@@ -123,9 +124,12 @@ function startTimer() {
         setInterval(function() {
             timeEl.textContent = timeLeft;
             timeLeft--;
+            if (timeLeft <= 4) {
+                timeEl.style.color = 'red';
+            }
             if (timeLeft <= 0) {
-                // WHEN the timer reaches 0, THEN the game is over
-                //gameOver();
+                // when the timer reaches 0, then the game is over
+                gameOver();
                 timeLeft = 0;
 
                 
