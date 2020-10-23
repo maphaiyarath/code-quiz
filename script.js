@@ -1,10 +1,12 @@
 var welcome = document.getElementById("welcome");
-var quiz = document.getElementById("quiz");
+var quiz = document.getElementById("quiz justify-content-around text-center");
+var doneEl = document.getElementById("done justify-content-around text-center");
 var scores = document.getElementById("highscores");
 var isPlaying = false;
 var timeEl = document.getElementById("time");
 var isQuestionAnswered = false;
 var questionIndex = 0;
+var score = 0;
 
 var questions = [
     {q: 'What does the terminal command \'cd\' do?', a: 'Change the directory', choices: ['Change the directory', 'Copy the directory', 'Play a CD']},
@@ -20,6 +22,7 @@ function startQuiz() {
     welcome.setAttribute("style", "display: none;");
     quiz.setAttribute("style", "display: block");
 
+    isPlaying = true;
     startTimer();
     
     selectNextQ();
@@ -49,13 +52,16 @@ function selectNextQ() {
             choice.setAttribute("class", "btn btn-primary");
             choice.setAttribute("type", "button");
             choice.setAttribute("onclick", "chooseAnswer()");
+            choice.setAttribute("style", "display: block;");
             choice.textContent = questions[questionIndex].choices[i];
-            console.log(choice.textContent)
             quiz.append(choice);
         }
 
     } else {
-        console.log('Done!');
+        quiz.setAttribute("style", "display: none");
+        var done = document.createElement("h1");
+        done.textContent = 'DONE';
+        doneEl.append(done);
     }
 }
 
@@ -63,7 +69,16 @@ function chooseAnswer() {
     
     isQuestionAnswered = true;
     questionIndex++;
-    // console.log(questionIndex);
+    /*
+
+    <div class="alert alert-success" role="alert">
+        This is a success alert—check it out!
+    </div>
+    <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+    </div>
+
+    */
     selectNextQ();
 }
 
