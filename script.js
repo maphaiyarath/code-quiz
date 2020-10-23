@@ -1,3 +1,8 @@
+// WHEN I answer a question incorrectly THEN time is subtracted from the clock
+// WHEN all questions are answered or the timer reaches 0 THEN the game is over
+// WHEN the game is over THEN I can save my initials and score
+
+
 var welcome = document.getElementById("welcome");
 var quiz = document.getElementById("quiz justify-content-around text-center");
 var doneEl = document.getElementById("done justify-content-around text-center");
@@ -83,6 +88,7 @@ function chooseAnswer() {
     
     isQuestionAnswered = true;
     questionIndex++;
+
     /*
 
     <div class="alert alert-success" role="alert">
@@ -98,20 +104,10 @@ function chooseAnswer() {
     selectNextQ();
 }
 
-function validate() {
-
-}
-
 function gameOver() {
     doneEl.style.display = 'block';
     // TODO: timer should pause when game over
-    //var done = document.createElement("h1");
-    //done.textContent = 'All done!';
-    //doneEl.append(done);
-
-    // var yourScore = document.createElement("p");
     yourScore.textContent = 'Your final score is ' + score + '.';
-    // doneEl.append(yourScore);
 
 }
 
