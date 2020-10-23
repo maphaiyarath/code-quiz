@@ -2,6 +2,7 @@ var welcome = document.getElementById("welcome");
 var quiz = document.getElementById("quiz justify-content-around text-center");
 var doneEl = document.getElementById("done justify-content-around text-center");
 var scores = document.getElementById("highscores");
+
 var isPlaying = false;
 var timeEl = document.getElementById("time");
 var isQuestionAnswered = false;
@@ -17,14 +18,18 @@ function clearScores() {
     scores.innerHTML = '';
 }
 
+// start the quiz when the start button is clicked
 function startQuiz() {
     // clear start quiz info
     welcome.setAttribute("style", "display: none;");
     quiz.setAttribute("style", "display: block");
 
     isPlaying = true;
+
+    // the timer starts
     startTimer();
     
+    // the user is presented with a question
     selectNextQ();
 
     
@@ -34,13 +39,14 @@ function startQuiz() {
 function selectNextQ() {
     if (questionIndex !== questions.length) {
         quiz.innerHTML = '';
+
         // create a card for each question
         var questionEl = document.createElement("div");
-        questionEl.setAttribute("class", "card");
+        questionEl.setAttribute("class", "question");
 
         // card's title will be the question
         var questionQ = document.createElement("h3");
-        questionQ.setAttribute("class", "card-title");
+        //questionQ.setAttribute("class", "card-title");
         questionQ.textContent = questions[questionIndex].q;
         questionEl.append(questionQ);
 
@@ -54,18 +60,22 @@ function selectNextQ() {
             choice.setAttribute("onclick", "chooseAnswer()");
             choice.setAttribute("style", "display: block;");
             choice.textContent = questions[questionIndex].choices[i];
-            quiz.append(choice);
+
+            var cardEl = document.querySelector(".question");
+            questionEl.append(choice);
         }
 
     } else {
         quiz.setAttribute("style", "display: none");
-        var done = document.createElement("h1");
-        done.textContent = 'DONE';
-        doneEl.append(done);
+
+        // when all questions are answered, then the game is over
+        gameOver();
     }
 }
 
 function chooseAnswer() {
+    // WHEN I answer a question incorrectly THEN time is subtracted from the clock
+    // TODO: keep track of score
     
     isQuestionAnswered = true;
     questionIndex++;
@@ -79,10 +89,24 @@ function chooseAnswer() {
     </div>
 
     */
+
+    // when the user answers a question, then they are presented with another question
     selectNextQ();
 }
 
 function validate() {
+
+}
+
+function gameOver() {
+    // TODO: timer should pause when game over
+    var done = document.createElement("h1");
+    done.textContent = 'All done!';
+    doneEl.append(done);
+
+    var yourScore = document.createElement("p");
+    yourScore.textContent = 'Your final score is ' + score + '.';
+    doneEl.append(yourScore);
 
 }
 
@@ -93,7 +117,11 @@ function startTimer() {
             timeEl.textContent = timeLeft;
             timeLeft--;
             if (timeLeft <= 0) {
+                // WHEN the timer reaches 0, THEN the game is over
+                //gameOver();
                 timeLeft = 0;
+
+                
             }
         }, 1000);
         
