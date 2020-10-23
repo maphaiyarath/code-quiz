@@ -17,16 +17,18 @@
         </div>
     </nav>
     <div class="container">
-        <main class="row">
+        <main class="row" id="welcome">
             <div class="col-12 justify-content-around text-center">
                 <h1>Coding Quiz Challenge</h1>
                 <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-                <button type="button" class="btn btn-primary">Start Quiz</button>
+                <button type="button" class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
             </div>
         </main>
+        <div id="quiz" style="display: hidden;">
+        </div>
     </div>
     <script src="https://kit.fontawesome.com/f97e73811e.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
