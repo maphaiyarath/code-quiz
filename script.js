@@ -2,17 +2,18 @@
 // WHEN all questions are answered or the timer reaches 0 THEN the game is over
 // WHEN the game is over THEN I can save my initials and score
 
-
+var alertsEl = document.querySelector(".alerts");
 var welcome = document.getElementById("welcome");
 var quiz = document.getElementById("quiz justify-content-around text-center");
 var doneEl = document.getElementById("done justify-content-around text-center");
 var scores = document.getElementById("highscores");
 var yourScore = document.getElementById("your-score");
-var isPlaying = false;
 var timeEl = document.getElementById("time");
-var isQuestionAnswered = false;
+var correctEl = document.querySelector(".alert-success");
+var wrongEl = document.querySelector(".alert-danger");
 var questionIndex = 0;
 var score = 0;
+var timeLeft = 0;
 
 
 
@@ -32,9 +33,7 @@ function startQuiz() {
     // clear start quiz info
     welcome.setAttribute("style", "display: none;");
     quiz.setAttribute("style", "display: block");
-
     isPlaying = true;
-
     // the timer starts
     startTimer();
     
@@ -45,9 +44,9 @@ function startQuiz() {
 }
 
 function selectNextQ() {
-    console.log(questionIndex, questions.length);
+    quiz.innerHTML = '';
     if (questionIndex < questions.length) {
-        quiz.innerHTML = '';
+        
 
         // create a card for each question
         var questionEl = document.createElement("div");
@@ -55,7 +54,6 @@ function selectNextQ() {
 
         // card's title will be the question
         var questionQ = document.createElement("h3");
-        //questionQ.setAttribute("class", "card-title");
         questionQ.textContent = questions[questionIndex].q;
         questionEl.append(questionQ);
 
@@ -65,12 +63,13 @@ function selectNextQ() {
         for (var i = 0; i < questions[questionIndex].choices.length; i++) {
             var choice = document.createElement("button");
             choice.setAttribute("class", "btn btn-primary");
+            choice.setAttribute("data-value", questions[questionIndex].choices[i]);
+            choice.setAttribute("data-answer", questions[questionIndex].a);
             choice.setAttribute("type", "button");
-            choice.setAttribute("onclick", "chooseAnswer()");
+            choice.setAttribute("onclick", "chooseAnswer(this)");
             choice.setAttribute("style", "display: block;");
             choice.textContent = questions[questionIndex].choices[i];
 
-            var cardEl = document.querySelector(".question");
             questionEl.append(choice);
         }
 
@@ -82,29 +81,36 @@ function selectNextQ() {
     }
 }
 
-function chooseAnswer() {
+function chooseAnswer(value) {
     // WHEN I answer a question incorrectly THEN time is subtracted from the clock
     // TODO: keep track of score
-    
-    isQuestionAnswered = true;
-    questionIndex++;
+    if (value.dataset.value === value.dataset.answer) {
+        correctEl.setAttribute("style", "display: block");
+        wrongEl.setAttribute("style", "display: none");
+        setTimeout(function() {
+            correctEl.style.display = "none";
+        }, 1000);
+        
+    } else {
+        // alert the user that they are wrong
+        wrongEl.setAttribute("style", "display: block");
+        correctEl.setAttribute("style", "display: none");
+        setTimeout(function() {
+            wrongEl.style.display = "none";
+        }, 1000);
+        timeLeft -= 10;
+    }
 
-    /*
 
-    <div class="alert alert-success" role="alert">
-        This is a success alert—check it out!
-    </div>
-    <div class="alert alert-danger" role="alert">
-        This is a danger alert—check it out!
-    </div>
 
-    */
+   questionIndex++;
 
     // when the user answers a question, then they are presented with another question
     selectNextQ();
 }
 
 function gameOver() {
+    //alertsEl.innerHTML = '';
     doneEl.style.display = 'block';
     // TODO: timer should pause when game over
     yourScore.textContent = 'Your final score is ' + score + '.';
@@ -112,7 +118,7 @@ function gameOver() {
 }
 
 function startTimer() {
-    var timeLeft = 3; // parseInt(timeEl.textContent);
+    timeLeft = 20;
     if (timeLeft > 0) {
         setInterval(function() {
             timeEl.textContent = timeLeft;
@@ -130,13 +136,3 @@ function startTimer() {
         timeEl.textContent = 0;
     }
 }
-
-/*
-
-//<div class="card-header">Featured</div>
-//<div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-//</div>
-
-*/
