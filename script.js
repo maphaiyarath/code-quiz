@@ -2,17 +2,21 @@ var welcome = document.getElementById("welcome");
 var quiz = document.getElementById("quiz justify-content-around text-center");
 var doneEl = document.getElementById("done justify-content-around text-center");
 var scores = document.getElementById("highscores");
-
+var yourScore = document.getElementById("your-score");
 var isPlaying = false;
 var timeEl = document.getElementById("time");
 var isQuestionAnswered = false;
 var questionIndex = 0;
 var score = 0;
 
+
+
 var questions = [
     {q: 'What does the terminal command \'cd\' do?', a: 'Change the directory', choices: ['Change the directory', 'Copy the directory', 'Play a CD']},
     {q: 'Which style positions elements relative to their nearest positioned ancestor?', a: 'Absolute', choices: ['Absolute', 'Relative', 'Fixed']}
 ];
+
+
 
 function clearScores() {
     scores.innerHTML = '';
@@ -31,13 +35,13 @@ function startQuiz() {
     
     // the user is presented with a question
     selectNextQ();
-
     
         
 }
 
 function selectNextQ() {
-    if (questionIndex !== questions.length) {
+    console.log(questionIndex, questions.length);
+    if (questionIndex < questions.length) {
         quiz.innerHTML = '';
 
         // create a card for each question
@@ -99,14 +103,15 @@ function validate() {
 }
 
 function gameOver() {
+    doneEl.style.display = 'block';
     // TODO: timer should pause when game over
-    var done = document.createElement("h1");
-    done.textContent = 'All done!';
-    doneEl.append(done);
+    //var done = document.createElement("h1");
+    //done.textContent = 'All done!';
+    //doneEl.append(done);
 
-    var yourScore = document.createElement("p");
+    // var yourScore = document.createElement("p");
     yourScore.textContent = 'Your final score is ' + score + '.';
-    doneEl.append(yourScore);
+    // doneEl.append(yourScore);
 
 }
 
