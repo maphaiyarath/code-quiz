@@ -3,6 +3,8 @@ var quiz = document.getElementById("quiz");
 var scores = document.getElementById("highscores");
 var isPlaying = false;
 var timeEl = document.getElementById("time");
+var isQuestionAnswered = false;
+var questionIndex = 0;
 
 var questions = [
     {q: 'What does the terminal command \'cd\' do?', a: 'Change the directory', choices: ['Change the directory', 'Copy the directory', 'Play a CD']},
@@ -19,41 +21,69 @@ function startQuiz() {
     quiz.setAttribute("style", "display: block");
 
     startTimer();
+    
+    selectNextQ();
 
-    // var if user has answered question yet
-    var isQuestionAnswered = false;
-    var questionCount = 0;
-
-    for (var i = 0; i < questions.length; i++) {
-        if (!isQuestionAnswered) {
-            // create a card for each question
-            var questionEl = document.createElement("div");
-            questionEl.setAttribute("class", "card");
-
-            // card's title will be the question
-            var questionQ = document.createElement("h3");
-            questionQ.setAttribute("class", "card-title");
-            questionQ.textContent = questions[i].q;
-            questionEl.append(questionQ);
-
-            quiz.append(questionEl);
-        }
+    
         
+}
+
+function selectNextQ() {
+    if (questionIndex !== questions.length) {
+        quiz.innerHTML = '';
+        // create a card for each question
+        var questionEl = document.createElement("div");
+        questionEl.setAttribute("class", "card");
+
+        // card's title will be the question
+        var questionQ = document.createElement("h3");
+        questionQ.setAttribute("class", "card-title");
+        questionQ.textContent = questions[questionIndex].q;
+        questionEl.append(questionQ);
+
+        quiz.append(questionEl);
 
         // card's body will be the choices
-        // var questionQ = document.createElement("h3");
-        // questionQ.setAttribute("class", "card-title");
-        // questionQ.textContent = questions[i].q;
+        for (var i = 0; i < questions[questionIndex].choices.length; i++) {
+            var choice = document.createElement("button");
+            choice.setAttribute("class", "btn btn-primary");
+            choice.setAttribute("type", "button");
+            choice.setAttribute("onclick", "chooseAnswer()");
+            choice.textContent = questions[questionIndex].choices[i];
+            console.log(choice.textContent)
+            quiz.append(choice);
+        }
+
+    } else {
+        console.log('Done!');
     }
 }
 
+function chooseAnswer() {
+    
+    isQuestionAnswered = true;
+    questionIndex++;
+    // console.log(questionIndex);
+    selectNextQ();
+}
+
+function validate() {
+
+}
+
 function startTimer() {
-    var timeLeft = 100; // parseInt(timeEl.textContent);
+    var timeLeft = 3; // parseInt(timeEl.textContent);
     if (timeLeft > 0) {
         setInterval(function() {
-            timeLeft--;
             timeEl.textContent = timeLeft;
+            timeLeft--;
+            if (timeLeft <= 0) {
+                timeLeft = 0;
+            }
         }, 1000);
+        
+    } else {
+        timeEl.textContent = 0;
     }
 }
 
