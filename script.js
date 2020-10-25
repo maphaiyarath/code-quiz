@@ -1,4 +1,4 @@
-//
+// variables to reference html
 var alertsEl = document.querySelector(".alerts");
 var correctEl = document.querySelector(".alert-success");
 var doneEl = document.getElementById("done justify-content-around text-center");
@@ -11,20 +11,14 @@ var welcome = document.getElementById("welcome");
 var wrongEl = document.querySelector(".alert-danger");
 var yourScore = document.getElementById("your-score");
 
-
-
-
-
-
-
-
+// other variables
+var interval;
 var questionIndex = 0;
 var score = 0;
 var timeLeft = 0;
 var scores = [];
 
-
-
+// list of questions
 var questions = [{
         q: 'What does the terminal command \'cd\' do?',
         a: 'Change the directory',
@@ -44,11 +38,18 @@ var questions = [{
         q: 'What is the value of x in the following line of code? \nvar x = "Volvo" + 16 + 4;',
         a: 'Volvo164',
         choices: ['Volvo20', 'Volvo164', 'undefined']
+    },
+    {
+        q: 'Which of these is not a valid comment in JavaScript?',
+        a: '<!-- comment -->',
+        choices: ['// comment', '<!-- comment -->', '/* comment */']
+    },
+    {
+        q: 'Which line of code allows you to select an element with an id of \'apple\'?',
+        a: 'document.getElementByID("apple");',
+        choices: ['document.getElementByID("apple");', 'document.getElementByID("#apple");', 'document.querySelector(".apple");']
     }
 ];
-
-
-
 
 // start the quiz when the start button is clicked
 function startQuiz() {
@@ -60,23 +61,22 @@ function startQuiz() {
     startTimer();
 
     // the user is presented with a question
-    selectNextQ();
-
-
+    displayQ();
 }
 
-function selectNextQ() {
+// display the question
+function displayQ() {
     quiz.innerHTML = '';
-    if (questionIndex < questions.length) {
-        var questionEl = document.createElement("div");
-        questionEl.setAttribute("class", "question");
 
-        // the question
+    if (questionIndex < questions.length) {
+        // create a div for the question
+        var questionEl = document.createElement("div");
+        quiz.append(questionEl);
+
+        // display the question itself
         var questionQ = document.createElement("h3");
         questionQ.textContent = questions[questionIndex].q;
         questionEl.append(questionQ);
-
-        quiz.append(questionEl);
 
         // display the choices as buttons
         for (var i = 0; i < questions[questionIndex].choices.length; i++) {
@@ -88,10 +88,8 @@ function selectNextQ() {
             choice.setAttribute("onclick", "chooseAnswer(this)");
             choice.setAttribute("style", "display: block;");
             choice.textContent = questions[questionIndex].choices[i];
-
             questionEl.append(choice);
         }
-
     } else {
         quiz.setAttribute("style", "display: none");
 
@@ -100,19 +98,25 @@ function selectNextQ() {
     }
 }
 
+// answer validation
 function chooseAnswer(value) {
+    // alert the user that they are correct
     if (value.dataset.value === value.dataset.answer) {
         correctEl.setAttribute("style", "display: block");
         wrongEl.setAttribute("style", "display: none");
+
+        // the alert diappears after a second
         setTimeout(function() {
             correctEl.style.display = "none";
         }, 1000);
-        score += 10;
 
+        // update user's score
+        score += 10;
     } else {
         // alert the user that they are wrong
         wrongEl.setAttribute("style", "display: block");
         correctEl.setAttribute("style", "display: none");
+
         setTimeout(function() {
             wrongEl.style.display = "none";
         }, 1000);
@@ -121,55 +125,58 @@ function chooseAnswer(value) {
         timeLeft -= 9;
     }
 
-
-
+    // advance to the next question
     questionIndex++;
 
     // when the user answers a question, then they are presented with another question
-    selectNextQ();
+    displayQ();
 }
 
+// display the user's final score and allow them to save it
 function gameOver() {
     quiz.style.display = 'none';
     doneEl.style.display = 'block';
-    // TODO: timer should pause when game over
-    yourScore.textContent = 'Your final score is ' + score + '.';
 
+    // stop the timer
+    clearInterval(interval);
+
+    yourScore.textContent = 'Your final score is ' + score + '.';
 }
 
+// timer functionality
 function startTimer() {
-    timeLeft = 20;
+    timeLeft = 30;
+
     if (timeLeft > 0) {
-        setInterval(function() {
+        interval = setInterval(function() {
             timeEl.textContent = timeLeft;
             timeLeft--;
+
+            // CRUNCH TIME! change the timer text color to red
             if (timeLeft <= 4) {
                 timeEl.style.color = 'red';
             }
+
+            // when the timer reaches 0, then the game is over
             if (timeLeft < 0) {
-                // when the timer reaches 0, then the game is over
                 gameOver();
                 timeLeft = 0;
-
-
             }
         }, 1000);
-
     } else {
         timeEl.textContent = 0;
     }
 }
 
-
-
-
-// when the game is over, the user can save their initials and score
+// if user is on gameo over screen with the submit form...
 if (scoreForm) {
+    // when the game is over, the user can save their initials and score
     scoreForm.addEventListener("submit", function(event) {
         event.preventDefault();
     
         var initialText = initialInput.value.trim();
     
+        // do not accept empty initials
         if (initialText === '') {
             return;
         }
@@ -179,22 +186,22 @@ if (scoreForm) {
             'score': score
         };
         
-        scores.push({
-            'initials': initialText,
-            'score': score
-        });
+        // add the new score to the scores array
+        scores.push(userScore);
         
+        // reset the input field
         initialInput.value = '';
     
+        // add the scores array to localStorage
         localStorage.setItem('scores', JSON.stringify(scores));
 
-       window.location.href = "./index.html";
+        // go back home
+        window.location.href = "./index.html";
     });
     
 }
 
-
-
+// grab the previous high scores from localStorage
 function init() {
     var storedScores = JSON.parse(localStorage.getItem("scores"));
 
@@ -203,25 +210,20 @@ function init() {
     }
 }
 
-
+// present the high scores as a table
 function showScores() {
-
     var storedScores = JSON.parse(localStorage.getItem("scores"));
 
     if (storedScores !== null) {
         scores = storedScores;
     }
 
+    // create a row for each score found
     for (var i = 0; i < scores.length; i++) {
         var scoreItem = scores[i];
 
         var tr = document.createElement("tr");
         scoresEl.append(tr);
-
-        var th = document.createElement("th");
-        th.setAttribute("scope", "row");
-        th.textContent = i + 1;
-        tr.append(th);
         
         var tdInitial = document.createElement("td");
         tdInitial.textContent = scoreItem.initials;
@@ -233,11 +235,13 @@ function showScores() {
     }
 }
 
+// self-explanatory
 function clearScores() {
     scoresEl.innerHTML = '';
     localStorage.clear();
 }
 
+// if on high scores page, then show scores
 if (scoresEl) {
     showScores();
 }
