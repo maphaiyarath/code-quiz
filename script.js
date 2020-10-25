@@ -205,7 +205,7 @@ if (scoreForm) {
         localStorage.setItem('scores', JSON.stringify(scores));
 
         // go to highscores page
-        window.location.href = "./highscores.html";
+        window.location.href = "https://maphaiyarath.github.io/code-quiz/highscores.html";
     });
     
 }
