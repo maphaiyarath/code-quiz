@@ -204,7 +204,7 @@ if (scoreForm) {
         // add the scores array to localStorage
         localStorage.setItem('scores', JSON.stringify(scores));
 
-        // go back home
+        // go to highscores page
         window.location.href = "./highscores.html";
     });
     
