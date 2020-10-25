@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Quiz</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <main class="row">
-            <div class="col-12 justify-content-around text-center">
-                <div class="row">
-                    <h1>Highscores</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Code Quiz</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <main class="row">
+                <div class="col-12 justify-content-around text-center">
+                    <div class="row">
+                        <h1>Highscores</h1>
+                    </div>
+                    <div class="row">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Initials</th>
+                                    <th scope="col">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="highscores">
+                                <!-- <tr>
+                                    <th scope="row">1</th>
+                                    <td>MA</td>
+                                    <td>100</td>
+                                    </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-primary" onclick="location.href='./index.html'">Go Back</button>
+                        <button type="button" class="btn btn-primary" onclick="clearScores()">Clear Highscores</button>
+                    </div>
                 </div>
-                <div class="row">
-                    <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Initials</th>
-                            <th scope="col">Score</th>
-                          </tr>
-                        </thead>
-                        <tbody id="highscores">
-                          <!-- <tr>
-                            <th scope="row">1</th>
-                            <td>MA</td>
-                            <td>100</td>
-                          </tr> -->
-                        </tbody>
-                      </table>
-                </div>
-                <div class="row">
-                    <button type="button" class="btn btn-primary" onclick="location.href='./index.html'">Go Back</button>
-                    <button type="button" class="btn btn-primary" onclick="clearScores()">Clear Highscores</button>
-                </div>
-            </div>
-        </main>
-    </div>
-    <script src="https://kit.fontawesome.com/f97e73811e.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="./script.js"></script>
-</body>
+            </main>
+        </div>
+        <script src="https://kit.fontawesome.com/f97e73811e.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="./script.js"></script>
+        <script src="./scores.js"></script>
+    </body>
 </html>
