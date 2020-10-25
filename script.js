@@ -1,17 +1,27 @@
 //
 var alertsEl = document.querySelector(".alerts");
-var welcome = document.getElementById("welcome");
-var quiz = document.getElementById("quiz justify-content-around text-center");
-var doneEl = document.getElementById("done justify-content-around text-center");
-var yourScore = document.getElementById("your-score");
-var timeEl = document.getElementById("time");
 var correctEl = document.querySelector(".alert-success");
+var doneEl = document.getElementById("done justify-content-around text-center");
+var initialInput = document.getElementById("initial-input");
+var quiz = document.getElementById("quiz justify-content-around text-center");
+var scoresEl = document.getElementById("highscores");
+var scoreForm = document.querySelector(".form-inline");
+var timeEl = document.getElementById("time");
+var welcome = document.getElementById("welcome");
 var wrongEl = document.querySelector(".alert-danger");
+var yourScore = document.getElementById("your-score");
+
+
+
+
+
+
 
 
 var questionIndex = 0;
 var score = 0;
 var timeLeft = 0;
+var scores = [];
 
 
 
@@ -150,12 +160,86 @@ function startTimer() {
     }
 }
 
+
+
+
 // when the game is over, the user can save their initials and score
-function saveScore() {
-    var initials = document.getElementById("initialInput");
-    var userScore = {
-        'initials': initials.value,
-        'score': score
-    };
-    localStorage.setItem('scores', JSON.stringify(userScore));
+if (scoreForm) {
+    scoreForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+    
+        var initialText = initialInput.value.trim();
+    
+        if (initialText === '') {
+            return;
+        }
+
+        var userScore = {
+            'initials': initialText,
+            'score': score
+        };
+        
+        scores.push({
+            'initials': initialText,
+            'score': score
+        });
+        
+        initialInput.value = '';
+    
+        localStorage.setItem('scores', JSON.stringify(scores));
+
+       window.location.href = "./index.html";
+    });
+    
 }
+
+
+
+function init() {
+    var storedScores = JSON.parse(localStorage.getItem("scores"));
+
+    if (storedScores !== null) {
+        scores = storedScores;
+    }
+}
+
+
+function showScores() {
+
+    var storedScores = JSON.parse(localStorage.getItem("scores"));
+
+    if (storedScores !== null) {
+        scores = storedScores;
+    }
+
+    for (var i = 0; i < scores.length; i++) {
+        var scoreItem = scores[i];
+
+        var tr = document.createElement("tr");
+        scoresEl.append(tr);
+
+        var th = document.createElement("th");
+        th.setAttribute("scope", "row");
+        th.textContent = i + 1;
+        tr.append(th);
+        
+        var tdInitial = document.createElement("td");
+        tdInitial.textContent = scoreItem.initials;
+        tr.append(tdInitial);
+
+        var tdScore = document.createElement("td");
+        tdScore.textContent = scoreItem.score;
+        tr.append(tdScore);
+    }
+}
+
+function clearScores() {
+    scoresEl.innerHTML = '';
+    localStorage.clear();
+}
+
+if (scoresEl) {
+    showScores();
+}
+
+init();
