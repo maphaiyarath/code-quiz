@@ -5,7 +5,7 @@ var doneEl = document.querySelector(".done");
 var initialInput = document.getElementById("initial-input");
 var quiz = document.querySelector(".quiz");
 var scoresEl = document.getElementById("highscores");
-var scoreForm = document.querySelector(".form-inline");
+var scoreForm = document.querySelector(".form");
 var start = document.getElementById("start");
 var timeEl = document.getElementById("time");
 var welcome = document.getElementById("welcome");
@@ -205,7 +205,7 @@ if (scoreForm) {
         localStorage.setItem('scores', JSON.stringify(scores));
 
         // go back home
-        window.location.href = "./index.html";
+        window.location.href = "./highscores.html";
     });
     
 }

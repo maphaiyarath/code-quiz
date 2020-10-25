@@ -30,19 +30,24 @@
                 <div class="quiz col-sm-12 col-md-8 col-lg-6" style="display: none;"></div>
             </div>
             <div class="row justify-content-center">
-                <div class="done col-sm-12 col-md-8 col-lg-6" style="display: none;">
+                <div class="done col-12 col-sm-12 col-md-8 col-lg-6" style="display: none;">
                     <h1>All done!</h1>
                     <p id="your-score">Your final score is: </p>
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="initials" class="sr-only">Enter initials: </label>
-                            <input type="text" readonly class="form-control-plaintext" id="initials" value="Enter initials: ">
+                    <form class="form">
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
+                                <label for="initials" class="sr-only">Enter initials: </label>
+                                <input type="text" readonly class="form-control-plaintext" id="initials" value="Enter initials: ">
+                            </div>
+                            <div class="col-4">
+                                <label for="initialInput" class="sr-only">Enter initials: </label>
+                                <input type="text" maxlength="3" class="form-control" id="initial-input">
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="initialInput" class="sr-only">Enter initials: </label>
-                            <input type="text" maxlength="3" class="form-control" id="initial-input">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        
                     </form>
                 </div>
             </div>
