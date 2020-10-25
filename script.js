@@ -1,11 +1,12 @@
 // variables to reference html
 var alertsEl = document.querySelector(".alerts");
 var correctEl = document.querySelector(".alert-success");
-var doneEl = document.getElementById("done justify-content-around text-center");
+var doneEl = document.querySelector(".done");
 var initialInput = document.getElementById("initial-input");
-var quiz = document.getElementById("quiz justify-content-around text-center");
+var quiz = document.querySelector(".quiz");
 var scoresEl = document.getElementById("highscores");
 var scoreForm = document.querySelector(".form-inline");
+var start = document.getElementById("start");
 var timeEl = document.getElementById("time");
 var welcome = document.getElementById("welcome");
 var wrongEl = document.querySelector(".alert-danger");
@@ -35,7 +36,7 @@ var questions = [{
         choices: ['Provides an alternate image to display', 'Specifies the path to the image', 'Specifies alternate text for an image if it cannot be displayed']
     },
     {
-        q: 'What is the value of x in the following line of code? \nvar x = "Volvo" + 16 + 4;',
+        q: 'What is the value of x in the following line of code: var x = "Volvo" + 16 + 4;',
         a: 'Volvo164',
         choices: ['Volvo20', 'Volvo164', 'undefined']
     },
@@ -52,6 +53,10 @@ var questions = [{
 ];
 
 // start the quiz when the start button is clicked
+if (start) {
+    start.addEventListener("click", startQuiz);
+}
+
 function startQuiz() {
     // clear start quiz info
     welcome.setAttribute("style", "display: none;");
@@ -86,7 +91,7 @@ function displayQ() {
             choice.setAttribute("data-answer", questions[questionIndex].a);
             choice.setAttribute("type", "button");
             choice.setAttribute("onclick", "chooseAnswer(this)");
-            choice.setAttribute("style", "display: block;");
+            choice.setAttribute("style", "display: block; margin: 5px 0px 5px 0px;");
             choice.textContent = questions[questionIndex].choices[i];
             questionEl.append(choice);
         }
@@ -123,6 +128,10 @@ function chooseAnswer(value) {
 
         // when the user answers a question incorrectly, then time is subtracted from the clock
         timeLeft -= 9;
+
+        if (timeLeft < 0) {
+            timeLeft = 0;
+        }
     }
 
     // advance to the next question
