@@ -116,7 +116,7 @@ function chooseAnswer(value) {
         }, 1000);
 
         // update user's score
-        score += 10;
+        score += 1;
     } else {
         // alert the user that they are wrong
         wrongEl.setAttribute("style", "display: block");
@@ -149,7 +149,7 @@ function gameOver() {
     // stop the timer
     clearInterval(interval);
 
-    yourScore.textContent = 'Your final score is ' + score + '.';
+    yourScore.textContent = 'Your final score is ' + score + '/' + questions.length + '.';
 }
 
 // timer functionality
