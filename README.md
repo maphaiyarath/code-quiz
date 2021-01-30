@@ -1,6 +1,6 @@
 # Web APIs: Code Quiz
 
-![Code Quiz App](./code-quiz-og.jpeg)
+![Code Quiz App](./og-code-quiz.png)
 
 You can see the deployed app [here](https://maphaiyarath.github.io/code-quiz/).
 
